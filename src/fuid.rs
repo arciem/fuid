@@ -5,7 +5,7 @@ use super::base62;
 use serde::{de, Deserialize, Deserializer, Serialize};
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Fuid(u128);
+pub struct Fuid(pub u128);
 
 impl Fuid {
     pub fn new() -> Fuid {

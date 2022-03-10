@@ -1,4 +1,4 @@
-//! Generate and parrse Friendly Universal Identifiers (FUIDs)
+//! Generate and parse Friendly Universal Identifiers (FUIDs)
 //!
 //! Here is an example of a FUID:
 //!
@@ -67,6 +67,8 @@
 //! let id: Fuid = s.into();
 //! let s2: u128 = id.into();
 //! assert_eq!(s, s2);
+//! let s3: u128 = id.0;
+//! assert_eq!(s2, s3);
 //! # Ok(())
 //! # }
 //! # }
