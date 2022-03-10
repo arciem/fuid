@@ -1,7 +1,7 @@
 # Friendly Universal Identifier (FUID)
 
 FUIDs are wrapped 128-bit unsigned integers, which gives them the same
-resolution as a UUID. FUIDs are serialized to Base62, which is a sequence of
+resolution as UUIDs. FUIDs are serialized to Base62, which is a sequence of
 digits and alphanumerics. This makes them shorter and easier to handle than
 normal UUID encoding, yet when generated randomly they use a UUID generation
 algorithm and are therefore isomorphic with UUIDs. One advantage of using
