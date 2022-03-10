@@ -5,13 +5,17 @@ use super::base62;
 use serde::{de, Deserialize, Deserializer, Serialize};
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
 pub struct Fuid(pub u128);
 
 impl Fuid {
+    /// Creates a new, random FUID.
     pub fn new() -> Fuid {
         Fuid(Uuid::new_v4().as_u128())
     }
 
+    /// Creates a new FUID from teh given string. FUID-compatible strings may
+    /// include numerals and upper and lower case English letters.
     pub fn with_string(s: &str) -> Result<Fuid, base62::DecodeError> {
         match base62::decode(s) {
             Ok(n) => Ok(Fuid(n)),
@@ -19,25 +23,32 @@ impl Fuid {
         }
     }
 
+    /// Creates a new FUID from the given u128.
     pub fn with_int(i: u128) -> Fuid {
         Self(i)
     }
 
+    /// Returns the wrapped u128 value.
     pub fn as_u128(&self) -> u128 {
         self.0
+    }
+
+    /// Returns the Base62 encoding of the wrapped value.
+    pub fn to_string(&self) -> String {
+        base62::encode(self.0)
     }
 }
 
 impl fmt::Display for Fuid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", base62::encode(self.0))
+        write!(f, "{}", self.to_string())
     }
 }
 
 impl fmt::Debug for Fuid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_tuple("Fuid")
-            .field(&base62::encode(self.0))
+            .field(&self.to_string())
             .finish()
     }
 }
@@ -60,7 +71,7 @@ impl TryFrom<&str> for Fuid {
 
 impl From<Fuid> for String {
     fn from(f: Fuid) -> Self {
-        base62::encode(f.0)
+        f.to_string()
     }
 }
 
@@ -105,6 +116,6 @@ impl Serialize for Fuid {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&base62::encode(self.0))
+        serializer.serialize_str(&self.to_string())
     }
 }

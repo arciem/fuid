@@ -10,7 +10,7 @@
 //! resolution as a UUID. FUIDs are serialized to Base62, which is a sequence of
 //! digits and alphanumerics. This makes them shorter and easier to handle than
 //! normal UUID encoding, yet when generated randomly they use a UUID generation
-//! algorithm and are therefore isomorphich with UUIDs. One advantage of using
+//! algorithm and are therefore isomorphic with UUIDs. One advantage of using
 //! FUIDs is that they can be converted from and to short strings that can stand
 //! in as human-readable identifiers for testing purposes, but can be
 //! full-length random numbers for production purposes.
@@ -26,6 +26,8 @@
 //!     "serde",                # Serde support
 //! ]
 //! ```
+//!
+//! # Usage
 //!
 //! When you want a random FUID, you can generate one:
 //!
@@ -57,19 +59,22 @@
 //! 3k9FL4LZe71geQdbOyCvz3
 //! ```
 //!
-//! You can convert short strings to and from FUIDs. FUID-compatible strings can
+//! You can convert short strings to and from FUIDs. FUID-compatible strings may
 //! include numerals and upper and lower case English letters.
 //!
 //! ```
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
 //! # {
+//! # use std::str::FromStr;
 //! use fuid::Fuid;
-//! use std::str::FromStr;
 //!
 //! let s = "A";
-//! let id: Fuid = Fuid::from_str(s)?; // Not all strings are valid FUIDs.
+//! let id = Fuid::from_str(s)?; // Not all strings are valid FUIDs.
 //! let s2: String = id.into();
-//! assert_eq!(s, s2);
+//! assert_eq!(s2, s);
+//! let id2: Fuid = s.try_into()?;
+//! let s3: String = id2.into();
+//! assert_eq!(s3, s);
 //! # Ok(())
 //! # }
 //! # }
@@ -82,12 +87,12 @@
 //! # {
 //! use fuid::Fuid;
 //!
-//! let s: u128 = 10;
-//! let id: Fuid = s.into();
-//! let s2: u128 = id.into();
-//! assert_eq!(s, s2);
-//! let s3: u128 = id.0;
-//! assert_eq!(s2, s3);
+//! let n: u128 = 10;
+//! let id: Fuid = n.into();
+//! let n2: u128 = id.into();
+//! assert_eq!(n, n2);
+//! let n3: u128 = id.0;
+//! assert_eq!(n2, n3);
 //! # Ok(())
 //! # }
 //! # }
