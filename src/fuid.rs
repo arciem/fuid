@@ -14,7 +14,7 @@ impl Fuid {
         Fuid(Uuid::new_v4().as_u128())
     }
 
-    /// Creates a new FUID from teh given string. FUID-compatible strings may
+    /// Creates a new FUID from the given string. FUID-compatible strings may
     /// include numerals and upper and lower case English letters.
     pub fn with_string(s: &str) -> Result<Fuid, base62::DecodeError> {
         match base62::decode(s) {
