@@ -4,9 +4,10 @@ use super::base62;
 #[cfg(feature = "serde")]
 use serde::{de, Deserialize, Deserializer, Serialize};
 
+/// A Friendly Universal Identifier (FUID).
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-pub struct Fuid(pub u128);
+pub struct Fuid(u128);
 
 impl Fuid {
     /// Creates a new, random FUID.
@@ -16,7 +17,7 @@ impl Fuid {
 
     /// Creates a new FUID from the given string. FUID-compatible strings may
     /// include numerals and upper and lower case English letters.
-    pub fn with_string(s: &str) -> Result<Fuid, base62::DecodeError> {
+    pub fn with_str(s: &str) -> Result<Fuid, base62::DecodeError> {
         match base62::decode(s) {
             Ok(n) => Ok(Fuid(n)),
             Err(e) => Err(e),
@@ -24,7 +25,7 @@ impl Fuid {
     }
 
     /// Creates a new FUID from the given u128.
-    pub fn with_int(i: u128) -> Fuid {
+    pub fn with_u128(i: u128) -> Fuid {
         Self(i)
     }
 
@@ -57,7 +58,7 @@ impl FromStr for Fuid {
     type Err = base62::DecodeError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Fuid::with_string(s)
+        Fuid::with_str(s)
     }
 }
 
@@ -65,7 +66,7 @@ impl TryFrom<&str> for Fuid {
     type Error = base62::DecodeError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        Fuid::with_string(value)
+        Fuid::with_str(value)
     }
 }
 
@@ -77,13 +78,13 @@ impl From<Fuid> for String {
 
 impl From<u128> for Fuid {
     fn from(i: u128) -> Self {
-        Self::with_int(i)
+        Self::with_u128(i)
     }
 }
 
 impl From<Fuid> for u128 {
     fn from(f: Fuid) -> Self {
-        f.0
+        f.as_u128()
     }
 }
 
@@ -106,7 +107,7 @@ impl<'de> Deserialize<'de> for Fuid {
         D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
-        Fuid::with_string(&s).map_err(de::Error::custom)
+        Fuid::with_str(&s).map_err(de::Error::custom)
     }
 }
 

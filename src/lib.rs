@@ -91,8 +91,6 @@
 //! let id: Fuid = n.into();
 //! let n2: u128 = id.into();
 //! assert_eq!(n, n2);
-//! let n3: u128 = id.0;
-//! assert_eq!(n2, n3);
 //! # Ok(())
 //! # }
 //! # }
@@ -135,8 +133,8 @@ mod tests {
         let a = "6fTiplVKIi6bJFe8rTXPcu";
         let b = "5z1JeaxqBJ4Y3pEXh2B8Sj";
 
-        let fa = Fuid::with_string(a)?;
-        let fb = Fuid::with_string(b)?;
+        let fa = Fuid::with_str(a)?;
+        let fb = Fuid::with_str(b)?;
 
         assert_eq!(fa.to_string(), a);
         assert_eq!(fb.to_string(), b);
@@ -144,7 +142,7 @@ mod tests {
         assert_ne!(Fuid::new(), fa);
         assert_ne!(Fuid::new(), fb);
 
-        assert!(Fuid::with_string("ab!").is_err());
+        assert!(Fuid::with_str("ab!").is_err());
 
         Ok(())
     }
