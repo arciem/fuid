@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, str::FromStr};
 use uuid::Uuid;
 use super::base62;
 #[cfg(feature = "serde")]
@@ -22,6 +22,10 @@ impl Fuid {
     pub fn with_int(i: u128) -> Fuid {
         Self(i)
     }
+
+    pub fn as_u128(&self) -> u128 {
+        self.0
+    }
 }
 
 impl fmt::Display for Fuid {
@@ -38,17 +42,19 @@ impl fmt::Debug for Fuid {
     }
 }
 
+impl FromStr for Fuid {
+    type Err = base62::DecodeError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Fuid::with_string(s)
+    }
+}
+
 impl TryFrom<&str> for Fuid {
     type Error = base62::DecodeError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         Fuid::with_string(value)
-    }
-}
-
-impl From<u128> for Fuid {
-    fn from(i: u128) -> Self {
-        Self::with_int(i)
     }
 }
 
@@ -58,9 +64,27 @@ impl From<Fuid> for String {
     }
 }
 
+impl From<u128> for Fuid {
+    fn from(i: u128) -> Self {
+        Self::with_int(i)
+    }
+}
+
 impl From<Fuid> for u128 {
     fn from(f: Fuid) -> Self {
         f.0
+    }
+}
+
+impl From<Uuid> for Fuid {
+    fn from(u: Uuid) -> Self {
+        u.as_u128().into()
+    }
+}
+
+impl From<Fuid> for Uuid {
+    fn from(f: Fuid) -> Self {
+        Uuid::from_u128(f.as_u128())
     }
 }
 

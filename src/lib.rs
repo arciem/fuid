@@ -8,12 +8,12 @@
 //!
 //! FUIDs are wrapped 128-bit unsigned integers, which gives them the same
 //! resolution as a UUID. FUIDs are serialized to Base62, which is a sequence of
-//! digits and alphanumerics. This makes them easier to handle than normal UUID
-//! encoding, yet when generated randomly they use a UUID generation algorithm
-//! and are therefore isomorphich with UUIDs. One advantage of using FUIDs is
-//! that they can be converted from and to short strings that can stand in as
-//! human-readable identifiers for testing purposes, but can be full-length
-//! random numbers for production purposes.
+//! digits and alphanumerics. This makes them shorter and easier to handle than
+//! normal UUID encoding, yet when generated randomly they use a UUID generation
+//! algorithm and are therefore isomorphich with UUIDs. One advantage of using
+//! FUIDs is that they can be converted from and to short strings that can stand
+//! in as human-readable identifiers for testing purposes, but can be
+//! full-length random numbers for production purposes.
 //!
 //! # Getting Started
 
@@ -34,9 +34,27 @@
 //! # {
 //! use fuid::Fuid;
 //!
-//! let id = Fuid::new();
+//! for _ in 0..10 {
+//!     let id = Fuid::new();
+//!     println!("{}", id);
+//! }
 //! # }
 //! # }
+//! ```
+//!
+//! Example output:
+//!
+//! ```text
+//! 2OgGZdF0XpQ7nuoC99CDxX
+//! 4YX6PmtlWBkhMEyyc6G7Oz
+//! 7ZxST7AIFUpG9EgnD9CgI7
+//! 4XCFe4KvZjQBfb4sH6Ybqd
+//! 5tmyQuvYZyJ6vOWCQLEqkB
+//! 3RcWxQsqs8mWIpn1RQIVJc
+//! 7MlBR5pJakurAhNRr4LwfZ
+//! 6WKpT00vD4BJ3vZpEdZaZw
+//! 4SxascPNNmBN1jFQYCtWpr
+//! 3k9FL4LZe71geQdbOyCvz3
 //! ```
 //!
 //! You can convert short strings to and from FUIDs. FUID-compatible strings can
@@ -46,9 +64,10 @@
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
 //! # {
 //! use fuid::Fuid;
+//! use std::str::FromStr;
 //!
 //! let s = "A";
-//! let id: Fuid = s.try_into()?; // Not all strings are valid FUIDs.
+//! let id: Fuid = Fuid::from_str(s)?; // Not all strings are valid FUIDs.
 //! let s2: String = id.into();
 //! assert_eq!(s, s2);
 //! # Ok(())
@@ -74,7 +93,25 @@
 //! # }
 //! ```
 //!
+//! You can convert UUIDs to and from FUIDs.
 //!
+//! ```
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! # {
+//! # use std::str::FromStr;
+//! use fuid::Fuid;
+//! use uuid::Uuid;
+//!
+//! let f = "3k9FL4LZe71geQdbOyCvz3";
+//! let u = "7b06fb9f-cb59-4c6d-a38c-028d27193acd";
+//! let fuid = Fuid::from_str(f)?;
+//! let uuid = Uuid::from_str(u)?;
+//! assert_eq!(fuid, uuid.into());
+//! assert_eq!(uuid, fuid.into());
+//! # Ok(())
+//! # }
+//! # }
+//! ```
 
 #![warn(rust_2018_idioms)]
 
@@ -114,7 +151,7 @@ mod tests {
 
         let a = Fuid::new();
         let b = to_string(&a)?;
-        println!("{}", b);
+        // println!("{}", b);
         let c: Fuid = from_str(&b)?;
         assert_eq!(a, c);
 
