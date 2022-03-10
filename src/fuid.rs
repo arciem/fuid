@@ -4,16 +4,6 @@ use super::base62;
 #[cfg(feature = "serde")]
 use serde::{de, Deserialize, Deserializer, Serialize};
 
-/// Friendly Universal Identifier (FUID)
-///
-/// FUIDs are wrapped 128-bit unsigned integers, which gives them the same
-/// resolution as a UUID. Fuids are serialized to Base62, which is a sequence of
-/// digits and alphanumerics. This makes them easier to handle than normal UUID
-/// encoding, yet when generated randomly they use a UUID generation algorithm
-/// and are therefore isomorphich with UUIDs. One advantage of using FUIDs is
-/// that they can be converted from and to short strings that can stand in as
-/// human-readable identifiers for testing purposes, but can be full-length
-/// random numbers for production purposes.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Fuid(u128);
 
@@ -59,6 +49,18 @@ impl TryFrom<&str> for Fuid {
 impl From<u128> for Fuid {
     fn from(i: u128) -> Self {
         Self::with_int(i)
+    }
+}
+
+impl From<Fuid> for String {
+    fn from(f: Fuid) -> Self {
+        base62::encode(f.0)
+    }
+}
+
+impl From<Fuid> for u128 {
+    fn from(f: Fuid) -> Self {
+        f.0
     }
 }
 

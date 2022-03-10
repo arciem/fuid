@@ -9,7 +9,7 @@
                 "$rustc"
             ],
             "group": "build",
-            "label": "Rust: Build"
+            "label": "Cargo: Build"
         },
         {
             "type": "cargo",
@@ -19,7 +19,7 @@
                 "$rustc"
             ],
             "group": "build",
-            "label": "Rust: Check"
+            "label": "Cargo: Check"
         },
         {
             "type": "cargo",
@@ -29,7 +29,7 @@
                 "$rustc"
             ],
             "group": "test",
-            "label": "Rust: Test"
+            "label": "Cargo: Test"
         },
         {
             "type": "cargo",
@@ -39,7 +39,7 @@
                 "$rustc"
             ],
             "group": "test",
-            "label": "Rust: Doctests"
+            "label": "Cargo: Doctests"
         },
         {
             "type": "cargo",
@@ -48,7 +48,16 @@
                 "$rustc"
             ],
             "group": "test",
-            "label": "Rust: Clean"
+            "label": "Cargo: Clean"
+        },
+        {
+            "type": "cargo",
+            "command": "doc",
+            "args": ["--all-features", "--no-deps"],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "label": "Cargo: Doc"
         }
     ]
 }
