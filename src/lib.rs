@@ -144,6 +144,9 @@ mod tests {
 
         assert!(Fuid::with_str("ab!").is_err());
 
+        let _: Fuid = "A".into();
+        let _: Fuid = "A".to_string().into();
+
         Ok(())
     }
 

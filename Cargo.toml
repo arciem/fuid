@@ -1,6 +1,6 @@
 [package]
 name = "fuid"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 license = "MIT"
 description = "A UUID-compatible identifier in a friendly base-62 format."
@@ -10,8 +10,8 @@ keywords = ["uuid", "base62"]
 categories = ["data-structures", "encoding"]
 
 [dependencies]
-uuid = { version = "0.8.2", features = ["v4"] }
-serde = { version = "1.0", optional = true }
+uuid = { version = "1", features = ["v4"] }
+serde = { version = "1", optional = true }
 
 [dev-dependencies]
-serde_json = "1.0"
+serde_json = "1"

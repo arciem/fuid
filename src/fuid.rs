@@ -33,16 +33,17 @@ impl Fuid {
     pub fn as_u128(&self) -> u128 {
         self.0
     }
+}
 
-    /// Returns the Base62 encoding of the wrapped value.
-    pub fn to_string(&self) -> String {
-        base62::encode(self.0)
+impl Default for Fuid {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
 impl fmt::Display for Fuid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.to_string())
+        write!(f, "{}", base62::encode(self.0))
     }
 }
 
@@ -62,23 +63,27 @@ impl FromStr for Fuid {
     }
 }
 
-impl TryFrom<&str> for Fuid {
-    type Error = base62::DecodeError;
-
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
-        Fuid::with_str(value)
+impl From<&str> for Fuid {
+    fn from(val: &str) -> Self {
+        Fuid::from_str(val).unwrap()
     }
 }
 
-impl From<Fuid> for String {
-    fn from(f: Fuid) -> Self {
-        f.to_string()
+impl From<String> for Fuid {
+    fn from(val: String) -> Self {
+        Fuid::with_str(&val).unwrap()
     }
 }
 
 impl From<u128> for Fuid {
     fn from(i: u128) -> Self {
         Self::with_u128(i)
+    }
+}
+
+impl From<Fuid> for String {
+    fn from(f: Fuid) -> Self {
+        f.to_string()
     }
 }
 
