@@ -16,7 +16,7 @@
 //! full-length random numbers for production purposes.
 //!
 //! # Getting Started
-
+//!
 //! Add the following to your `Cargo.toml`:
 //!
 //! ```toml
