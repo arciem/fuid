@@ -1,3 +1,4 @@
+#![cfg_attr(not(feature = "std"), no_std)]
 //! Generate and parse Friendly Universal Identifiers (FUIDs)
 //!
 //! Here is an example of a FUID:
