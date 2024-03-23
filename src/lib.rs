@@ -1,6 +1,3 @@
-#![cfg_attr(not(feature = "std"), no_std)]
-// #![warn(clippy::std_instead_of_core, clippy::alloc_instead_of_core, clippy::std_instead_of_alloc)]
-// #![no_std]
 //! Generate and parse Friendly Universal Identifiers (FUIDs)
 //!
 //! Here is an example of a FUID:
@@ -11,8 +8,8 @@
 //!
 //! FUIDs are wrapped 128-bit unsigned integers, which gives them the same
 //! resolution as UUIDs. FUIDs are serialized to Base62, which is a sequence of
-//! digits and letters. This makes them shorter and easier to handle than
-//! normal UUID encoding, yet when generated randomly they use a UUID generation
+//! digits and letters. This makes them shorter and easier to handle than normal
+//! UUID encoding, yet when generated randomly they use a UUID generation
 //! algorithm and are therefore isomorphic with UUIDs. One advantage of using
 //! FUIDs is that they can be converted from and to short strings that can stand
 //! in as human-readable identifiers for testing purposes, but can be
@@ -24,10 +21,20 @@
 //!
 //! ```toml
 //! [dependencies.fuid]
-//! version = "1.1.0"
-//! features = [
-//!     "serde",                # Serde support
-//! ]
+//! version = "1.2.0"
+//! features = ["serde"]        # Optional: Enable Serde support
+//! ```
+//!
+//! # `no_std` Support
+//!
+//! `fuid` supports `no_std` environments. In the `no_std` environment, the
+//! `alloc` crate will be used.
+//!
+//! ```toml
+//! [dependencies.fuid]
+//! version = "1.2.0"
+//! default-features = false    # Disable default features
+//! features = ["serde"]        # Optional: Enable Serde support with no_std
 //! ```
 //!
 //! # Usage
@@ -131,6 +138,10 @@
 //! # }
 //! # }
 //! ```
+
+#![cfg_attr(not(feature = "std"), no_std)]
+// #![warn(clippy::std_instead_of_core, clippy::alloc_instead_of_core, clippy::std_instead_of_alloc)]
+// #![no_std]
 
 #![warn(rust_2018_idioms)]
 
