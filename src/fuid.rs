@@ -105,6 +105,13 @@ impl From<Fuid> for Uuid {
     }
 }
 
+#[macro_export]
+macro_rules! fuid {
+    ($s:expr) => {
+        $crate::Fuid::from($s)
+    };
+}
+
 #[cfg(feature = "serde")]
 impl<'de> Deserialize<'de> for Fuid {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

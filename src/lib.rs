@@ -21,7 +21,7 @@
 //!
 //! ```toml
 //! [dependencies.fuid]
-//! version = "1.0.0"
+//! version = "1.1.0"
 //! features = [
 //!     "serde",                # Serde support
 //! ]
@@ -96,6 +96,23 @@
 //! # }
 //! ```
 //!
+//! You can use the `fuid!` macro to easily convert literals into FUIDs.
+//!
+//! ```
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! # {
+//! use fuid::fuid;
+//!
+//! let a = fuid!("A");
+//! assert_eq!(String::from(a), "A");
+//!
+//! let b = fuid!(1);
+//! assert_eq!(b.as_u128(), 1);
+//! # Ok(())
+//! # }
+//! # }
+//! ```
+//!
 //! You can convert UUIDs to and from FUIDs.
 //!
 //! ```
@@ -126,7 +143,7 @@ pub use crate::fuid::*;
 
 #[cfg(test)]
 mod tests {
-    use crate::fuid::Fuid;
+    use super::{fuid, Fuid};
 
     #[test]
     fn test_fuid() -> Result<(), Box<dyn std::error::Error>> {
@@ -146,6 +163,17 @@ mod tests {
 
         let _: Fuid = "A".into();
         let _: Fuid = "A".to_string().into();
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_macro() -> Result<(), Box<dyn std::error::Error>> {
+        let a = fuid!("A");
+        assert_eq!(String::from(a), "A");
+
+        let b = fuid!(1);
+        assert_eq!(b.as_u128(), 1);
 
         Ok(())
     }
