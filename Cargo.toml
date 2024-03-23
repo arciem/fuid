@@ -1,6 +1,6 @@
 [package]
 name = "fuid"
-version = "1.2.0"
+version = "1.2.1"
 edition = "2021"
 license = "MIT"
 description = "A UUID-compatible identifier in a friendly base-62 format."
