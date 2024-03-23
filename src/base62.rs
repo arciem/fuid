@@ -1,4 +1,4 @@
-use std::fmt;
+import_stdlib!();
 pub use self::DecodeError::*;
 
 // Based on code from https://github.com/fbernier/base62
@@ -9,7 +9,7 @@ pub enum DecodeError {
     ArithmeticOverflow
 }
 
-impl std::error::Error for DecodeError {
+impl Error for DecodeError {
 }
 
 impl fmt::Display for DecodeError {
@@ -69,6 +69,7 @@ pub fn decode(string: &str) -> Result<u128, DecodeError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    import_stdlib!();
 
     #[test]
     fn test_encode() {
@@ -76,7 +77,7 @@ mod tests {
     }
 
     #[test]
-    fn test_decode() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_decode() -> Result<(), Box<dyn Error>> {
         assert_eq!(decode("F0ob4rZ")?, 852751187393);
         Ok(())
     }

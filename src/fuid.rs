@@ -1,4 +1,4 @@
-use std::{fmt, str::FromStr};
+import_stdlib!();
 use uuid::Uuid;
 use super::base62;
 #[cfg(feature = "serde")]
