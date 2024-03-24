@@ -1,4 +1,5 @@
 import_stdlib!();
+
 use uuid::Uuid;
 use super::base62;
 #[cfg(feature = "serde")]
@@ -106,6 +107,7 @@ impl From<Fuid> for Uuid {
 }
 
 #[macro_export]
+/// Creates a new FUID from the given expression, usually a string or integer.
 macro_rules! fuid {
     ($s:expr) => {
         $crate::Fuid::from($s)

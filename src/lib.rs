@@ -1,3 +1,6 @@
+#![warn(rust_2018_idioms)]
+#![cfg_attr(not(feature = "std"), no_std)]
+
 //! Generate and parse Friendly Universal Identifiers (FUIDs)
 //!
 //! Here is an example of a FUID:
@@ -139,44 +142,31 @@
 //! # }
 //! ```
 
-#![cfg_attr(not(feature = "std"), no_std)]
-// #![warn(clippy::std_instead_of_core, clippy::alloc_instead_of_core, clippy::std_instead_of_alloc)]
-// #![no_std]
-
-#![warn(rust_2018_idioms)]
-
 #[macro_use]
 mod stdlib;
-mod base62;
-mod fuid;
 
-pub use crate::base62::*;
-pub use crate::fuid::*;
+mod fuid;
+pub use fuid::Fuid;
+
+pub mod base62;
 
 #[cfg(test)]
 mod tests {
     use super::{fuid, Fuid};
-    import_stdlib!();
 
-    #[test]
-    #[cfg(feature = "std")]
-    fn test_std() {
-        // panic!("Compiled with std");
-    }
-
-    #[test]
     #[cfg(not(feature = "std"))]
-    fn test_no_std() {
-        // panic!("Compiled with std");
-    }
+    extern crate alloc;
+
+    #[cfg(not(feature = "std"))]
+    use alloc::string::{String, ToString};
 
     #[test]
-    fn test_fuid() -> Result<(), Box<dyn Error>> {
+    fn test_fuid() {
         let a = "6fTiplVKIi6bJFe8rTXPcu";
         let b = "5z1JeaxqBJ4Y3pEXh2B8Sj";
 
-        let fa = Fuid::with_str(a)?;
-        let fb = Fuid::with_str(b)?;
+        let fa = Fuid::with_str(a).unwrap();
+        let fb = Fuid::with_str(b).unwrap();
 
         assert_eq!(fa.to_string(), a);
         assert_eq!(fb.to_string(), b);
@@ -188,31 +178,25 @@ mod tests {
 
         let _: Fuid = "A".into();
         let _: Fuid = "A".to_string().into();
-
-        Ok(())
     }
 
     #[test]
-    fn test_macro() -> Result<(), Box<dyn Error>> {
+    fn test_macro() {
         let a = fuid!("A");
         assert_eq!(String::from(a), "A");
 
         let b = fuid!(1);
         assert_eq!(b.as_u128(), 1);
-
-        Ok(())
     }
 
     #[cfg(feature = "serde")]
     #[test]
-    fn test_serde() -> Result<(), Box<dyn Error>> {
+    fn test_serde() {
         use serde_json::{to_string, from_str};
 
         let a = Fuid::new();
-        let b = to_string(&a)?;
-        let c: Fuid = from_str(&b)?;
+        let b = to_string(&a).unwrap();
+        let c: Fuid = from_str(&b).unwrap();
         assert_eq!(a, c);
-
-        Ok(())
     }
 }

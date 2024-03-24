@@ -1,4 +1,5 @@
 import_stdlib!();
+
 pub use self::DecodeError::*;
 
 // Based on code from https://github.com/fbernier/base62
