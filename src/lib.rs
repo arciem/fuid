@@ -24,7 +24,7 @@
 //!
 //! ```toml
 //! [dependencies.fuid]
-//! version = "1.2.1"
+//! version = "1.2.2"
 //! features = ["serde"]        # Optional: Enable Serde support
 //! ```
 //!
@@ -35,7 +35,7 @@
 //!
 //! ```toml
 //! [dependencies.fuid]
-//! version = "1.2.1"
+//! version = "1.2.2"
 //! default-features = false    # Disable default features
 //! features = ["serde"]        # Optional: Enable Serde support with no_std
 //! ```
